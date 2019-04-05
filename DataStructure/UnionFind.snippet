@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>UnionFind</Title>
+      <Shortcut>uf</Shortcut>
+      <Description>Union-Find Tree</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Collections.Generic</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[class UnionFind
+{
+    public int Size { get; private set; }
+    public int GroupCount { get; private set; }
+    List<int> Sizes;
+    List<int> Parent;
+    public UnionFind(int count)
+    {
+        Size = 0;
+        GroupCount = 0;
+        Parent = new List<int>(count);
+        Sizes = new List<int>(count);
+        ExtendSize(count);
+    }
+    public bool TryUnite(int x, int y)
+    {
+        int xp = Find(x);
+        int yp = Find(y);
+        if (yp == xp) return false;
+        if (Sizes[xp] < Sizes[yp])
+        {
+            var tmp = xp;
+            xp = yp;
+            yp = tmp;
+        }
+        GroupCount--;
+        Parent[yp] = xp;
+        Sizes[xp] += Sizes[yp];
+        return true;
+    }
+    public IEnumerable<int> AllRepresents => Parent.Where(x => x == Parent[x]);
+    public int GetSize(int x) => Sizes[Find(x)];
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public int Find(int x)
+    {
+        while (x != Parent[x])
+        {
+            Parent[x] = Parent[Parent[x]];
+            x = Parent[x];
+        }
+        return x;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void ExtendSize(int treeSize)
+    {
+        if (treeSize <= Size) return;
+        Parent.Capacity = treeSize;
+        Sizes.Capacity = treeSize;
+        while (Size < treeSize)
+        {
+            Parent.Add(Size);
+            Sizes.Add(1);
+            Size++;
+            GroupCount++;
+        }
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>PartialPresistentUnionFind</Title>
+      <Shortcut>ppuf</Shortcut>
+      <Description>部分永続Union-Find Tree</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Collections.Generic</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[class PartialPersistentUnionFind
+{
+    public int Now { get; private set; }
+    public int Size { get; private set; }
+    int[] Parents;
+    int[] Time;
+    int[] Sizes;
+    List<Tuple<int, int>>[] SizeHistories;
+
+    public PartialPersistentUnionFind(int size)
+    {
+        Size = size;
+        Parents = Enumerable.Range(0, Size).ToArray();
+        Time = Enumerable.Repeat(int.MaxValue, Size).ToArray();
+        Sizes = Enumerable.Repeat(1, Size).ToArray();
+        SizeHistories = Enumerable.Repeat(0, Size).Select(_ => new List<Tuple<int, int>>() { new Tuple<int, int>(0, 1) }).ToArray();
+    }
+
+    public bool TryUnite(int x, int y)
+    {
+        Now++;
+        x = Find(x);
+        y = Find(y);
+        if (x == y) return false;
+        if (Sizes[x] < Sizes[y])
+        {
+            var tmp = x;
+            x = y;
+            y = tmp;
+        }
+        Parents[y] = x;
+        Time[y] = Now;
+        Sizes[x] += Sizes[y];
+        SizeHistories[x].Add(new Tuple<int, int>(Now, Sizes[x]));
+        return true;
+    }
+    public int Find(int i, int t = int.MaxValue - 1) => Time[i] <= t ? Find(Parents[i], t) : i;
+    public int GetSize(int i, int t = int.MaxValue - 1)
+    {
+        var root = Find(i, t);
+        return SizeHistories[root][~SizeHistories[root].BinarySearch(new Tuple<int, int>(t, int.MaxValue)) - 1].Item2;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
