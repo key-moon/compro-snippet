@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>power</Title>
+      <Shortcut>pow</Shortcut>
+      <Description>n^m(繰り返し二乗法)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[static long Power(long n, long m)
+{
+    const int mod = 1000000007;
+    long pow = n;
+    long res = 1;
+    while (m > 0)
+    {
+        if ((m & 1) == 1) res = (res * pow) % mod;
+        pow = (pow * pow) % mod;
+        m >>= 1;
+    }
+    return res;
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
