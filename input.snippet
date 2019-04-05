@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <!--単一行単一データ-->
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>read</Title>
+      <Shortcut>rstr</Shortcut>
+      <Description>単一行単一データの読み込み(文字列)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[Console.ReadLine()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readint</Title>
+      <Shortcut>rint</Shortcut>
+      <Description>単一行単一データの読み込み(32bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[int.Parse(Console.ReadLine())]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlong</Title>
+      <Shortcut>rlong</Shortcut>
+      <Description>単一行単一データの読み込み(64bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[long.Parse(Console.ReadLine())]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readfloat</Title>
+      <Shortcut>rfloat</Shortcut>
+      <Description>単一行単一データの読み込み(単精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[float.Parse(Console.ReadLine())]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readdouble</Title>
+      <Shortcut>rdouble</Shortcut>
+      <Description>単一行単一データの読み込み(倍精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[double.Parse(Console.ReadLine())]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <!--単一行複数データ-->
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readsplitstring</Title>
+      <Shortcut>rsstr</Shortcut>
+      <Description>単一行複数データの読み込み(文字列)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[Console.ReadLine().Split()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readsplitint</Title>
+      <Shortcut>rsint</Shortcut>
+      <Description>単一行複数データの読み込み(32bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[Console.ReadLine().Split().Select(int.Parse).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readsplitlong</Title>
+      <Shortcut>rslong</Shortcut>
+      <Description>単一行複数データの読み込み(64bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[Console.ReadLine().Split().Select(long.Parse).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readsplitfloat</Title>
+      <Shortcut>rsfloat</Shortcut>
+      <Description>単一行複数データの読み込み(単精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[Console.ReadLine().Split().Select(float.Parse).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readsplitdouble</Title>
+      <Shortcut>rsdouble</Shortcut>
+      <Description>単一行複数データの読み込み(倍精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp">
+        <![CDATA[Console.ReadLine().Split().Select(double.Parse).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <!--複数行単一データ-->
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinestring</Title>
+      <Shortcut>rlstr</Shortcut>
+      <Description>複数行単一データの読み込み(文字列)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlineint</Title>
+      <Shortcut>rlint</Shortcut>
+      <Description>複数行単一データの読み込み(32bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => int.Parse(Console.ReadLine())).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinelong</Title>
+      <Shortcut>rllong</Shortcut>
+      <Description>複数行単一データの読み込み(64bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => long.Parse(Console.ReadLine())).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinefloat</Title>
+      <Shortcut>rlfloat</Shortcut>
+      <Description>複数行単一データの読み込み(単精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => float.Parse(Console.ReadLine())).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinedouble</Title>
+      <Shortcut>rldouble</Shortcut>
+      <Description>複数行単一データの読み込み(倍精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => double.Parse(Console.ReadLine())).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <!--複数行複数データ-->
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinesplitstring</Title>
+      <Shortcut>rlsstr</Shortcut>
+      <Description>複数行複数データの読み込み(文字列)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine().Split()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinesplitint</Title>
+      <Shortcut>rlsint</Shortcut>
+      <Description>複数行複数データの読み込み(32bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine().Split().Select(int.Parse).ToArray()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinesplitlong</Title>
+      <Shortcut>rlslong</Shortcut>
+      <Description>複数行複数データの読み込み(64bit整数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine().Split().Select(long.Parse).ToArray()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinesplitfloat</Title>
+      <Shortcut>rlsfloat</Shortcut>
+      <Description>複数行複数データの読み込み(単精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine().Split().Select(float.Parse).ToArray()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>readlinesplitdouble</Title>
+      <Shortcut>rlsdouble</Shortcut>
+      <Description>複数行複数データの読み込み(倍精度浮動小数点数)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.Linq</Namespace>
+        </Import>
+      </Imports>
+      <Declarations>
+        <Literal>
+          <ID>count</ID>
+          <ToolTip>個数</ToolTip>
+          <Default>h</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp">
+        <![CDATA[Enumerable.Repeat(0,$count$).Select(_ => Console.ReadLine().Split().Select(double.Parse).ToArray()).ToArray()]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
