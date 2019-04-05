@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Greatest Common Diviser</Title>
+      <Shortcut>gcd</Shortcut>
+      <Description>最大公約数(互除法)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[static long GCD (long a, long b)
+{
+    while (true)
+    {
+        if (a > b)
+        {
+            if (b == 0) return a;
+            a %= b;
+        }
+        else
+        {
+            if (a == 0) return b;
+            b %= a;
+        }
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Lowest Common Multiplier</Title>
+      <Shortcut>lcm</Shortcut>
+      <Description>最小公倍数(互除法)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[static long LCM (long a, long b) => a / GCD(a, b) * b;]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
