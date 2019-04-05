@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ModInt</Title>
+      <Shortcut>ModInt</Shortcut>
+      <Description>特定の値での剰余を返す整数</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[struct ModInt
+{
+    const int MOD = 1000000007;
+    long Data;
+    public ModInt(long data) { Data = data; Eval(); }
+
+    private long Eval() => (Data %= MOD) < 0 ? Data += MOD : Data;
+    public static implicit operator long(ModInt modInt) => modInt.Eval();
+    public static implicit operator ModInt(long val) => new ModInt(val);
+    public static ModInt operator +(ModInt a, ModInt b) => new ModInt(a.Eval() + b.Eval());
+    public static ModInt operator -(ModInt a, ModInt b) => new ModInt(a.Eval() - b.Eval());
+    public static ModInt operator *(ModInt a, ModInt b) => new ModInt(a.Eval() * b.Eval());
+    public static ModInt operator /(ModInt a, ModInt b) => a * Power(b.Eval(), MOD - 2);
+
+    static ModInt Power(ModInt n, long m)
+    {
+        ModInt res = 1;
+        while (m > 0)
+        {
+            if ((m & 1) == 1) res *= n;
+            n *= n;
+            m >>= 1;
+        }
+        return res;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
