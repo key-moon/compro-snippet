@@ -4,25 +4,47 @@
     <Header>
       <Title>ModInt</Title>
       <Shortcut>ModInt</Shortcut>
-      <Description>特定の値での剰余を返す整数</Description>
+      <Description>特定の値での剰余を返す整数型</Description>
       <Author>keymoon</Author>
     </Header>
     <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
       <Code Language="csharp">
         <![CDATA[struct ModInt
 {
     const int MOD = 1000000007;
     long Data;
-    public ModInt(long data) { Data = data; Eval(); }
-
-    private long Eval() => (Data %= MOD) < 0 ? Data += MOD : Data;
-    public static implicit operator long(ModInt modInt) => modInt.Eval();
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ModInt(long data) { if ((Data = data % MOD) < 0) Data += MOD; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator long(ModInt modInt) => modInt.Data;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator ModInt(long val) => new ModInt(val);
-    public static ModInt operator +(ModInt a, ModInt b) => new ModInt(a.Eval() + b.Eval());
-    public static ModInt operator -(ModInt a, ModInt b) => new ModInt(a.Eval() - b.Eval());
-    public static ModInt operator *(ModInt a, ModInt b) => new ModInt(a.Eval() * b.Eval());
-    public static ModInt operator /(ModInt a, ModInt b) => a * Power(b.Eval(), MOD - 2);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModInt operator +(ModInt a, ModInt b)
+    {
+        long res = a.Data + b.Data;
+        return new ModInt() { Data = res >= MOD ? res - MOD : res };
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModInt operator -(ModInt a, ModInt b)
+    {
+        long res = a.Data - b.Data;
+        return new ModInt() { Data = res < 0 ? res + MOD : res };
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModInt operator *(ModInt a, ModInt b) => new ModInt(a.Data * b.Data);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModInt operator /(ModInt a, ModInt b) => a * Power(b, MOD - 2);
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static ModInt Power(ModInt n, long m)
     {
         ModInt res = 1;
@@ -34,7 +56,8 @@
         }
         return res;
     }
-}]]>
+}
+]]>
       </Code>
     </Snippet>
   </CodeSnippet>
