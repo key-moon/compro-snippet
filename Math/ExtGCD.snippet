@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Extended Euclidean algorithm</Title>
+      <Shortcut>extgcd</Shortcut>
+      <Description>gcd=ax+byなるx,yを見つける 返り値:(gcd,x,y)</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[static Tuple<long, long, long> ExtGCD(long a, long b)
+{
+    long div;
+    long x1 = 1, y1 = 0, x2 = 0, y2 = 1;
+    while (true)
+    {
+        if (b == 0) return new Tuple<long, long, long>(a, x1, y1);
+        div = a / b;
+        x1 -= x2 * div;
+        y1 -= y2 * div;
+        a %= b;
+        if (a == 0) return new Tuple<long, long, long>(b, x2, y2);
+        div = b / a;
+        x2 -= x1 * div;
+        y2 -= y1 * div;
+        b %= a;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
