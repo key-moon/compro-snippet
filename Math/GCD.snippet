@@ -13,16 +13,10 @@
 {
     while (true)
     {
-        if (a > b)
-        {
-            if (b == 0) return a;
-            a %= b;
-        }
-        else
-        {
-            if (a == 0) return b;
-            b %= a;
-        }
+        if (b == 0) return a;
+        a %= b;
+        if (a == 0) return b;
+        b %= a;
     }
 }]]>
       </Code>
