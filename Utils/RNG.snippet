@@ -54,7 +54,6 @@ class Random
     public uint UInt { get { Update(); return __uint; } }
     public long Long { get { Update(); return __long; } }
     public ulong ULong { get { Update(); return __ulong; } }
-
     public double Double { get { return (double)ULong / ulong.MaxValue; } }
 
     [FieldOffset(0)]
