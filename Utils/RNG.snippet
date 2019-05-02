@@ -63,7 +63,7 @@ class Random
     public Random(ulong seed) { SetSeed(seed); }
     public void SetSeed(ulong seed) => _xorshift = seed * 0x3141592c0ffeeul;
 
-    public int Next() => Int;
+    public int Next() => Int & 2147483647;
     public void Update()
     {
         _xorshift ^= _xorshift << 7;
