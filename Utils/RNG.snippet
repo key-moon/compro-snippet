@@ -45,15 +45,15 @@ class Random
     [FieldOffset(0)]
     private ulong __ulong;
 
-    public byte Byte { get { Next(); return __byte; } }
-    public sbyte SByte { get { Next(); return __sbyte; } }
-    public char Char { get { Next(); return __char; } }
-    public short Short { get { Next(); return __short; } }
-    public ushort UShort { get { Next(); return __ushort; } }
-    public int Int { get { Next(); return __int; } }
-    public uint UInt { get { Next(); return __uint; } }
-    public long Long { get { Next(); return __long; } }
-    public ulong ULong { get { Next(); return __ulong; } }
+    public byte Byte { get { Update(); return __byte; } }
+    public sbyte SByte { get { Update(); return __sbyte; } }
+    public char Char { get { Update(); return __char; } }
+    public short Short { get { Update(); return __short; } }
+    public ushort UShort { get { Update(); return __ushort; } }
+    public int Int { get { Update(); return __int; } }
+    public uint UInt { get { Update(); return __uint; } }
+    public long Long { get { Update(); return __long; } }
+    public ulong ULong { get { Update(); return __ulong; } }
 
     public double Double { get { return (double)ULong / ulong.MaxValue; } }
 
@@ -64,7 +64,8 @@ class Random
     public Random(ulong seed) { SetSeed(seed); }
     public void SetSeed(ulong seed) => _xorshift = seed * 0x3141592c0ffeeul;
 
-    public void Next()
+    public int Next() => Int;
+    public void Update()
     {
         _xorshift ^= _xorshift << 7;
         _xorshift ^= _xorshift >> 9;
