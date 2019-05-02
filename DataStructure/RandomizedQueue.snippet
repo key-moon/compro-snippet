@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>RandomizedQueue</Title>
+      <Shortcut>rqueue</Shortcut>
+      <Description>要素からランダムにpopされるqueue</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[class RandomizedQueue<T>
+{
+    int front;
+    T[] datas;
+    Random RNG = new Random();
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public RandomizedQueue(int defaultSize = 512) { datas = new T[defaultSize]; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Push(T data)
+    {
+        if (front >= datas.Length) Extend(datas.Length * 2);
+        datas[front++] = data;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public T Pop()
+    {
+        ValidateNonEmpty();
+        var index = RNG.Next() % front;
+        var data = datas[index];
+        datas[index] = datas[front--];
+        return data;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void Extend(int newSize)
+    {
+        T[] newDatas = new T[newSize];
+        datas.CopyTo(newDatas, 0);
+        datas = newDatas;
+    }
+    private void ValidateNonEmpty() { if (front == 0) throw new Exception(); }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
