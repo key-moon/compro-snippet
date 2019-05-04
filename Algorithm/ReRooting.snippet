@@ -8,30 +8,29 @@
       <Author>keymoon</Author>
     </Header>
     <Snippet>
-      <Declarations>
-        <Literal>
-          <ID>Type</ID>
-          <ToolTip>木DPで扱う型</ToolTip>
-          <Default>T</Default>
-        </Literal>
-        <Literal>
-          <ID>IdentityElement</ID>
-          <ToolTip>木DPで扱う型</ToolTip>
-          <Default>IdentityElement</Default>
-        </Literal>
-      </Declarations>
       <Code Language="csharp">
-        <![CDATA[class ReRooting
+        <![CDATA[class ReRooting<T>
 {
+    public int NodeCount { get; private set; }
+
     int[][] Neighbours;
     int[][] IndexForNeighbours;
 
-    $Type$[] res;
-    $Type$[][] dp;
-    int[] SearchState;
+    T[] Res;
+    T[][] dp;
 
-    public ReRooting(int nodeCount, int[][] edges)
+    T IdentityElement;
+    Func<T, T, T> Operate;
+    Func<T, T> OperateNode;
+
+    public ReRooting(int nodeCount, int[][] edges, T identityElement, Func<T, T, T> operate, Func<T, T> operateNode)
     {
+        NodeCount = nodeCount;
+
+        IdentityElement = identityElement;
+        Operate = operate;
+        OperateNode = operateNode;
+
         List<int>[] neighbours = new List<int>[nodeCount];
         List<int>[] indexForNeighbours = new List<int>[nodeCount];
 
@@ -57,74 +56,77 @@
             IndexForNeighbours[i] = indexForNeighbours[i].ToArray();
         }
 
-        dp = new $Type$[Neighbours.Length][];
-        SearchState = new int[Neighbours.Length];
+        dp = new T[Neighbours.Length][];
+        Res = new T[Neighbours.Length];
 
-        res = new $Type$[Neighbours.Length];
-        for (int i = 0; i < Neighbours.Length; i++)
+        for (int i = 0; i < Neighbours.Length; i++) dp[i] = new T[Neighbours[i].Length];
+        if (NodeCount > 1) Initialize();
+        else Res[0] = OperateNode(IdentityElement);
+    }
+
+    public T Query(int node) => Res[node];
+
+    private void Initialize()
+    {
+        int[] parents = new int[NodeCount];
+        int[] order = new int[NodeCount];
+
+        #region InitOrderedTree
+        var index = 0;
+        Stack<int> stack = new Stack<int>();
+        stack.Push(0);
+        parents[0] = -1;
+        while (stack.Count > 0)
         {
-            dp[i] = new $Type$[Neighbours[i].Length];
-            SearchState[i] = -2;
-        }
-    }
-
-    public $Type$ Query(int x)
-    {
-        if (SearchState[x] != -1) DFS(x, -1);
-        return res[x];
-    }
-
-    public $Type$ Query(int x, int toIndex)
-    {
-        if (SearchState[x] != -1 && SearchState[x] != toIndex) DFS(x, Neighbours[x][toIndex]);
-        return dp[Neighbours[x][toIndex]][IndexForNeighbours[x][toIndex]];
-    }
-
-    private void DFS(int x, int parent)
-    {
-        Debug.Assert(SearchState[x] != -1 && (SearchState[x] == -2 || Neighbours[x][SearchState[x]] != parent));
-
-        $Type$ accum = $IdentityElement$;
-        if (SearchState[x] == -2)
-        {
-            SearchState[x] = -1;
-            for (int i = 0; i < Neighbours[x].Length; i++)
+            var node = stack.Pop();
+            order[index++] = node;
+            for (int i = 0; i < Neighbours[node].Length; i++)
             {
-                if (Neighbours[x][i] == parent)
+                var neighbour = Neighbours[node][i];
+                if (neighbour == parents[node]) continue;
+                stack.Push(neighbour);
+                parents[neighbour] = node;
+            }
+        }
+        #endregion
+
+        #region fromLeaf
+        for (int i = order.Length - 1; i >= 1; i--)
+        {
+            var node = order[i];
+            var parent = parents[node];
+
+            T accum = IdentityElement;
+            int neighbourIndex = -1;
+            for (int j = 0; j < Neighbours[node].Length; j++)
+            {
+                if (Neighbours[node][j] == parent)
                 {
-                    SearchState[x] = i;
+                    neighbourIndex = j;
                     continue;
                 }
-                var state = SearchState[Neighbours[x][i]];
-                if (state != -1 && state != IndexForNeighbours[x][i]) DFS(Neighbours[x][i], x);
-                accum = /*Operate(accum, dp[x][i])*/;
+                accum = Operate(accum, dp[node][j]);
             }
-            if (SearchState[x] != -1)
+            dp[parent][IndexForNeighbours[node][neighbourIndex]] = OperateNode(accum);
+        }
+        #endregion
+
+        #region toLeaf
+        for (int i = 0; i < order.Length; i++)
+        {
+            var node = order[i];
+            T accum = IdentityElement;
+            T[] accumsFromTail = new T[Neighbours[node].Length];
+            accumsFromTail[accumsFromTail.Length - 1] = IdentityElement;
+            for (int j = accumsFromTail.Length - 1; j >= 1; j--) accumsFromTail[j - 1] = Operate(dp[node][j], accumsFromTail[j]);
+            for (int j = 0; j < accumsFromTail.Length; j++)
             {
-                dp[parent][IndexForNeighbours[x][SearchState[x]]] = /*Operate(accum, node)*/;
-                return;
+                dp[Neighbours[node][j]][IndexForNeighbours[node][j]] = OperateNode(Operate(accum, accumsFromTail[j]));
+                accum = Operate(accum, dp[node][j]);
             }
-            accum = $IdentityElement$;
+            Res[node] = OperateNode(accum);
         }
-        else
-        {
-            var targetInd = SearchState[x];
-            var target = Neighbours[x][targetInd];
-            var targetState = SearchState[target];
-            if (targetState != -1 && targetState != IndexForNeighbours[x][targetInd]) DFS(Neighbours[x][targetInd], x);
-        }
-
-        $Type$[] accumsFromTail = new $Type$[Neighbours[x].Length];
-        accumsFromTail[accumsFromTail.Length - 1] = $IdentityElement$;
-        for (int i = accumsFromTail.Length - 2; i >= 0; i--) accumsFromTail[i] = /*Operate(accumsFromTail[i + 1], dp[x][i + 1]*/;
-        for (int i = 0; i < accumsFromTail.Length; i++)
-        {
-            dp[Neighbours[x][i]][IndexForNeighbours[x][i]] = /*Operate(accum, accumsFromTail[i], node)*/;
-            accum = /*Operate(accum, dp[x][i])*/;
-        }
-
-        res[x] = accum;
-        SearchState[x] = -1;
+        #endregion
     }
 }]]>
       </Code>
