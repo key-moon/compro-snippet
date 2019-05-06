@@ -2,22 +2,33 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>power</Title>
+      <Title>Power</Title>
       <Shortcut>pow</Shortcut>
-      <Description>n^m(繰り返し二乗法)</Description>
+      <Description>可換な乗算を持つ型の冪演算</Description>
       <Author>keymoon</Author>
     </Header>
     <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Type</ID>
+          <ToolTip>可換な乗算を持つ型</ToolTip>
+          <Default>ModInt</Default>
+        </Literal>
+        <Literal>
+          <ID>IdentityElement</ID>
+          <ToolTip>単位元</ToolTip>
+          <Default>1</Default>
+        </Literal>
+      </Declarations>
       <Code Language="csharp">
-        <![CDATA[static long Power(long n, long m)
+        <![CDATA[static $T$ Power($T$ n, $T$ m)
 {
-    const int mod = 1000000007;
-    long pow = n;
-    long res = 1;
+    $T$ pow = n;
+    $T$ res = $IdentityElement$;
     while (m > 0)
     {
-        if ((m & 1) == 1) res = (res * pow) % mod;
-        pow = (pow * pow) % mod;
+        if ((m & 1) == 1) res *= pow;
+        pow *= pow;
         m >>= 1;
     }
     return res;
