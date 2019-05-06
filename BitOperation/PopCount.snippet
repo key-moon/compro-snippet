@@ -8,30 +8,14 @@
       <Author>keymoon</Author>
     </Header>
     <Snippet>
-      <Imports>
-        <Import>
-          <Namespace>System.Runtime.CompilerServices</Namespace>
-        </Import>
-      </Imports>
       <Code Language="csharp">
-        <![CDATA[[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static byte PopCount(long n)
+        <![CDATA[static int PopCount(long n)
 {
-    unchecked
-    {
-        int msb = 0;
-        if (n < 0)
-        {
-            n = -(n + 1);
-            msb = 1;
-        }
-        n = (n & 0x5555555555555555L) + ((n >> 1) & 0x5555555555555555L);
-        n = (n & 0x3333333333333333L) + ((n >> 2) & 0x3333333333333333L);
-        n = (n & 0x0f0f0f0f0f0f0f0fL) + ((n >> 4) & 0x0f0f0f0f0f0f0f0fL);
-        n = (n & 0x00ff00ff00ff00ffL) + ((n >> 8) & 0x00ff00ff00ff00ffL);
-        n = (n & 0x0000ffff0000ffffL) + ((n >> 16) & 0x0000ffff0000ffffL);
-        return (byte)((n & 0x00000000ffffffffL) + ((n >> 32) & 0x00000000ffffffffL) + msb);
-    }
+    int msb = 0;
+    if (n < 0) { n &= long.MaxValue; msb = 1; }
+    n = n - ((n >> 1) & 0x5555555555555555);
+    n = (n & 0x3333333333333333) + ((n >> 2) & 0x3333333333333333);
+    return (int)((((n + (n >> 4)) & 0x0F0F0F0F0F0F0F0F) * 0x0101010101010101) >> 56) + msb;
 }]]>
       </Code>
     </Snippet>
@@ -51,18 +35,11 @@ public static byte PopCount(long n)
         </Import>
       </Imports>
       <Code Language="csharp">
-        <![CDATA[[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static byte PopCount(ulong n)
+        <![CDATA[static int PopCount(ulong n)
 {
-    unchecked
-    {
-        n = (n & 0x5555555555555555UL) + ((n >> 1) & 0x5555555555555555UL);
-        n = (n & 0x3333333333333333UL) + ((n >> 2) & 0x3333333333333333UL);
-        n = (n & 0x0f0f0f0f0f0f0f0fUL) + ((n >> 4) & 0x0f0f0f0f0f0f0f0fUL);
-        n = (n & 0x00ff00ff00ff00ffUL) + ((n >> 8) & 0x00ff00ff00ff00ffUL);
-        n = (n & 0x0000ffff0000ffffUL) + ((n >> 16) & 0x0000ffff0000ffffUL);
-        return (byte)((n & 0x00000000ffffffffUL) + ((n >> 32) & 0x00000000ffffffffUL));
-    }
+    n = n - ((n >> 1) & 0x5555555555555555UL);
+    n = (n & 0x3333333333333333UL) + ((n >> 2) & 0x3333333333333333UL);
+    return (int)((((n + (n >> 4)) & 0x0F0F0F0F0F0F0F0FUL) * 0x0101010101010101UL) >> 56);
 }]]>
       </Code>
     </Snippet>
@@ -82,23 +59,13 @@ public static byte PopCount(ulong n)
         </Import>
       </Imports>
       <Code Language="csharp">
-        <![CDATA[[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static byte PopCount(int n)
+        <![CDATA[static int PopCount(int n)
 {
-    unchecked
-    {
-        int msb = 0;
-        if (n < 0)
-        {
-            n = -(n + 1);
-            msb = 1;
-        }
-        n = (n & 0x55555555) + ((n >> 1) & 0x55555555);
-        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
-        n = (n & 0x0f0f0f0f) + ((n >> 4) & 0x0f0f0f0f);
-        n = (n & 0x00ff00ff) + ((n >> 8) & 0x00ff00ff);
-        return (byte)((n & 0x0000ffff) + ((n >> 16) & 0x0000ffff) + msb);
-    }
+    int msb = 0;
+    if (n < 0) { n &= int.MaxValue; msb = 1; }
+    n = n - ((n >> 1) & 0x55555555);
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+    return (((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24) + msb;
 }]]>
       </Code>
     </Snippet>
@@ -118,17 +85,11 @@ public static byte PopCount(int n)
         </Import>
       </Imports>
       <Code Language="csharp">
-        <![CDATA[[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public static byte PopCount(uint n)
+        <![CDATA[static int PopCount(uint n)
 {
-    unchecked
-    {
-        n = (n & 0x55555555u) + ((n >> 1) & 0x55555555u);
-        n = (n & 0x33333333u) + ((n >> 2) & 0x33333333u);
-        n = (n & 0x0f0f0f0fu) + ((n >> 4) & 0x0f0f0f0fu);
-        n = (n & 0x00ff00ffu) + ((n >> 8) & 0x00ff00ffu);
-        return (byte)((n & 0x0000ffffu) + ((n >> 16) & 0x0000ffffu));
-    }
+    n = n - ((n >> 1) & 0x55555555U);
+    n = (n & 0x33333333U) + ((n >> 2) & 0x33333333U);
+    return (int)(((n + (n >> 4) & 0xF0F0F0FU) * 0x1010101U) >> 24);
 }]]>
       </Code>
     </Snippet>
