@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Matrix</Title>
+      <Shortcut>matrix</Shortcut>
+      <Description>行列</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[class Matrix : IEquatable<Matrix>
+{
+    public readonly int Height;
+    public readonly int Width;
+    long[,] data;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Matrix(int height, int width)
+    {
+        data = new long[height, width];
+        Height = height;
+        Width = width;
+    }
+    public long this[int i, int j]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get { return data[i, j]; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set { data[i, j] = value; }
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(Matrix other)
+    {
+        if (this.Width != other.Width || this.Height != other.Height) return false;
+        for (int i = 0; i < Height; i++) for (int j = 0; j < Width; j++) if (this[i, j] != other[i, j]) return false;
+        return true;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix Add(Matrix a, Matrix b)
+    {
+        Debug.Assert(a.Width == b.Width && a.Height == b.Height);
+        var res = new Matrix(a.Height, a.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < a.Width; j++) res[i, j] = a[i, j] + b[i, j];
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix Sub(Matrix a, Matrix b)
+    {
+        Debug.Assert(a.Width == b.Width && a.Height == b.Height);
+        var res = new Matrix(a.Height, a.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < a.Width; j++) res[i, j] = a[i, j] - b[i, j];
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix Mul(Matrix a, Matrix b)
+    {
+        Debug.Assert(a.Width == b.Height);
+        var res = new Matrix(a.Height, b.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < b.Width; j++) for (int k = 0; k < a.Width; k++) res[i, j] += a[i, k] * b[k, j];
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix operator +(Matrix a, Matrix b) => Add(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix operator -(Matrix a, Matrix b) => Sub(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Matrix operator *(Matrix a, Matrix b) => Mul(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator ==(Matrix a, Matrix b) => a.Equals(b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(Matrix a, Matrix b) => !a.Equals(b);
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ModMatrix</Title>
+      <Shortcut>modmatrix</Shortcut>
+      <Description>剰余環上の行列</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[class ModMatrix : IEquatable<ModMatrix>
+{
+    const int MOD = 1000000007;
+    public readonly int Height;
+    public readonly int Width;
+    long[,] data;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ModMatrix(int height, int width)
+    {
+        data = new long[height, width];
+        Height = height;
+        Width = width;
+    }
+    public long this[int i, int j]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get { return data[i, j]; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set { if ((data[i, j] = value % MOD) < 0) data[i, j] += MOD; }
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(ModMatrix other)
+    {
+        if (this.Width != other.Width || this.Height != other.Height) return false;
+        for (int i = 0; i < Height; i++) for (int j = 0; j < Width; j++) if (this[i, j] != other[i, j]) return false;
+        return true;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix Add(ModMatrix a, ModMatrix b)
+    {
+        Debug.Assert(a.Width == b.Width && a.Height == b.Height);
+        var res = new ModMatrix(a.Height, a.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < a.Width; j++) if (MOD <= (res.data[i, j] = a[i, j] + b[i, j])) res.data[i, j] -= MOD;
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix Sub(ModMatrix a, ModMatrix b)
+    {
+        Debug.Assert(a.Width == b.Width && a.Height == b.Height);
+        var res = new ModMatrix(a.Height, a.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < a.Width; j++) if ((res.data[i, j] = a[i, j] - b[i, j]) < 0) res.data[i, j] += MOD;
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix Mul(ModMatrix a, ModMatrix b)
+    {
+        Debug.Assert(a.Width == b.Height);
+        var res = new ModMatrix(a.Height, b.Width);
+        for (int i = 0; i < a.Height; i++) for (int j = 0; j < b.Width; j++) { for (int k = 0; k < a.Width; k++) res.data[i, j] += a[i, k] * b[k, j] % MOD; res.data[i, j] %= MOD; }
+        return res;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix operator +(ModMatrix a, ModMatrix b) => Add(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix operator -(ModMatrix a, ModMatrix b) => Sub(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModMatrix operator *(ModMatrix a, ModMatrix b) => Mul(a, b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator ==(ModMatrix a, ModMatrix b) => a.Equals(b);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(ModMatrix a, ModMatrix b) => !a.Equals(b);
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
