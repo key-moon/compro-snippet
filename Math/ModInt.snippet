@@ -34,7 +34,7 @@
         return new ModInt() { Data = res >= MOD ? res - MOD : res };
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ModInt operator +(ModInt a, long b) => new ModInt(a.Data + b);
+    public static ModInt operator +(ModInt a, long b) => a.Data + b;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ModInt operator -(ModInt a, ModInt b)
     {
@@ -42,9 +42,11 @@
         return new ModInt() { Data = res < 0 ? res + MOD : res };
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ModInt operator -(ModInt a, long b) => new ModInt(a.Data - b);
+    public static ModInt operator -(ModInt a, long b) => a.Data - b;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ModInt operator /(ModInt a, ModInt b) => a * GetInverse(b);
+    public static ModInt operator *(ModInt a, ModInt b) => new ModInt() { Data = a.Data * b.Data % MOD };
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ModInt operator /(ModInt a, ModInt b) => a.Data * GetInverse(b);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string ToString() => Data.ToString();
