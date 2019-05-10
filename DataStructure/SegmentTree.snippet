@@ -193,18 +193,18 @@
 {
     public int Size { get; private set; }
     T IdentityElement;
-    Func<T, T, T> Merge;
+    Func<T, T, T> MergeOperator;
     int LeafCount;
     int TreeHeight;
-    T[] Datas;
+    T[] Operators;
 
-    public SegmentTree(int size, T identityElement, Func<T, T, T> merge) : this(Enumerable.Repeat(identityElement, size).ToArray(), identityElement, merge) { }
+    public SegmentTree(int size, T identityElement, Func<T, T, T> mergeOperator) : this(Enumerable.Repeat(identityElement, size).ToArray(), identityElement, mergeOperator) { }
 
-    public SegmentTree(T[] elems, T identityElement, Func<T, T, T> merge)
+    public SegmentTree(T[] elems, T identityElement, Func<T, T, T> mergeOperator)
     {
         Size = elems.Length;
         IdentityElement = identityElement;
-        Merge = merge;
+        MergeOperator = mergeOperator;
         LeafCount = 1;
         TreeHeight = 1;
         while (LeafCount < elems.Length)
@@ -213,7 +213,7 @@
             TreeHeight++;
         }
 
-        Datas = Enumerable.Repeat(identityElement, LeafCount).Concat(elems).Concat(Enumerable.Repeat(identityElement, LeafCount - Size)).ToArray();
+        Operators = Enumerable.Repeat(identityElement, LeafCount).Concat(elems).Concat(Enumerable.Repeat(identityElement, LeafCount - Size)).ToArray();
     }
 
     public T this[int index]
@@ -231,8 +231,8 @@
         Propagate(r);
         while (l <= r)
         {
-            if (l % 2 == 1) Datas[l] = Merge(Datas[l], x);
-            if (r % 2 == 0) Datas[r] = Merge(Datas[r], x);
+            if (l % 2 == 1) Operators[l] = MergeOperator(Operators[l], x);
+            if (r % 2 == 0) Operators[r] = MergeOperator(Operators[r], x);
             l = (l + 1) / 2;
             r = (r - 1) / 2;
         }
@@ -243,7 +243,7 @@
     {
         index += LeafCount;
         Propagate(index);
-        return Datas[index];
+        return Operators[index];
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -255,9 +255,9 @@
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Eval(int sectionIndex)
     {
-        Datas[sectionIndex * 2] = Merge(Datas[sectionIndex * 2], Datas[sectionIndex]);
-        Datas[sectionIndex * 2 + 1] = Merge(Datas[sectionIndex * 2 + 1], Datas[sectionIndex]);
-        Datas[sectionIndex] = IdentityElement;
+        Operators[sectionIndex * 2] = MergeOperator(Operators[sectionIndex * 2], Operators[sectionIndex]);
+        Operators[sectionIndex * 2 + 1] = MergeOperator(Operators[sectionIndex * 2 + 1], Operators[sectionIndex]);
+        Operators[sectionIndex] = IdentityElement;
     }
 }]]>
       </Code>
