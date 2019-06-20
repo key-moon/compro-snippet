@@ -2,9 +2,52 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
-      <Title>FastReadInt</Title>
-      <Shortcut>fastrint</Shortcut>
-      <Description>スペース/改行区切りのintを1ブロックだけ読み取る</Description>
+      <Title>UIntReader</Title>
+      <Shortcut>uireader</Shortcut>
+      <Description>スペース/改行区切りの符号無しintを1ブロックだけ読み取る</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.IO</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+          <![CDATA[static readonly TextReader In = Console.In;
+static int NextUInt
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    get
+    {    
+        int res = 0;
+        int next = In.Read();
+        while (48 > next || next > 57) next = In.Read();
+        while (48 <= next && next <= 57)
+        {
+            res = res * 10 + next - 48;
+            next = In.Read();
+        }
+        return res;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>IntReader</Title>
+      <Shortcut>ireader</Shortcut>
+      <Description>スペース/改行区切りの符号ありintを1ブロックだけ読み取る</Description>
       <Author>keymoon</Author>
     </Header>
     <Snippet>
@@ -24,18 +67,111 @@
       </Imports>
       <Code Language="csharp">
         <![CDATA[static readonly TextReader In = Console.In;
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-static int Read()
+static int NextInt
 {
-    int res = 0;
-    int next = In.Read();
-    while (48 > next || next > 57) next = In.Read();
-    while (48 <= next && next <= 57)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    get
     {
-        res = res * 10 + next - 48;
-        next = In.Read();
+        int res = 0;
+        int next = In.Read();
+        int rev = 1;
+        while (45 > next || next > 57) next = In.Read();
+        if (next == 45) rev = -1;
+        while (48 <= next && next <= 57)
+        {
+            res = res * 10 + next - 48;
+            next = In.Read();
+        }
+        return res * rev;
     }
-    return res;
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>ULongReader</Title>
+      <Shortcut>ulreader</Shortcut>
+      <Description>スペース/改行区切りの符号無しlongを1ブロックだけ読み取る</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.IO</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[static readonly TextReader In = Console.In;
+static long NextULong
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    get
+    {    
+        long res = 0;
+        int next = In.Read();
+        while (48 > next || next > 57) next = In.Read();
+        while (48 <= next && next <= 57)
+        {
+            res = res * 10 + next - 48;
+            next = In.Read();
+        }
+        return res;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>LongReader</Title>
+      <Shortcut>lreader</Shortcut>
+      <Description>スペース/改行区切りの符号ありlongを1ブロックだけ読み取る</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.IO</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[static readonly TextReader In = Console.In;
+static int NextLong
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    get
+    {
+        long res = 0;
+        int next = In.Read();
+        int rev = 1;
+        while (45 > next || next > 57) next = In.Read();
+        if (next == 45) rev = -1;
+        while (48 <= next && next <= 57)
+        {
+            res = res * 10 + next - 48;
+            next = In.Read();
+        }
+        return res * rev;
+    }
 }]]>
       </Code>
     </Snippet>
