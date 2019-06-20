@@ -176,4 +176,41 @@ static int NextLong
       </Code>
     </Snippet>
   </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>CharReader</Title>
+      <Shortcut>creader</Shortcut>
+      <Description>スペース/改行を除いた次のcharを1文字だけ読み取る</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>System</Namespace>
+        </Import>
+        <Import>
+          <Namespace>System.IO</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[static readonly TextReader In = Console.In;
+static char NextChar
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    get
+    {
+        int next = In.Read();
+        while (next <= 32) next = In.Read();
+        return (char)next;
+    }
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
 </CodeSnippets>
