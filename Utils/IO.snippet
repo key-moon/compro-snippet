@@ -76,7 +76,7 @@ static int NextInt
         int next = In.Read();
         int rev = 1;
         while (45 > next || next > 57) next = In.Read();
-        if (next == 45) rev = -1;
+        if (next == 45) { next = In.Read(); rev = -1; }
         while (48 <= next && next <= 57)
         {
             res = res * 10 + next - 48;
@@ -164,7 +164,7 @@ static int NextLong
         int next = In.Read();
         int rev = 1;
         while (45 > next || next > 57) next = In.Read();
-        if (next == 45) rev = -1;
+        if (next == 45) { next = In.Read(); rev = -1; }
         while (48 <= next && next <= 57)
         {
             res = res * 10 + next - 48;
