@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Line</Title>
+      <Shortcut>Line</Shortcut>
+      <Description>二次元上での直線</Description>
+      <Author>keymoon</Author>
+    </Header>
+    <Snippet>
+      <Imports>
+        <Import>
+          <Namespace>MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions</Namespace>
+        </Import>
+        <Import>
+          <Namespace>MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="csharp">
+        <![CDATA[struct Line
+{
+    public Vector a;
+    public Vector b;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Line(Vector a, Vector b) { this.a = a; this.b = b; }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector? Cross(Line a, Line b, bool allowOutOfRegion = true)
+    {
+        double delta = (a.b.x - a.a.x) * (b.b.y - b.a.y) - (a.b.y - a.a.y) * (b.b.x - b.a.x);
+        if (delta == 0) return null;
+        double ramda = ((b.b.y - b.a.y) * (b.b.x - a.a.x) - (b.b.x - b.a.x) * (b.b.y - a.a.y)) / delta;
+        if (!allowOutOfRegion)
+        {
+            double mu = ((a.b.x - a.a.x) * (b.b.y - a.a.y) - (a.b.y - a.a.y) * (b.b.x - a.a.x));
+            if (mu < 0 || delta < mu || ramda < 0 || 1 < ramda) return null;
+        }
+        return new Vector(a.a.x + ramda * (a.b.x - a.a.x), a.a.y + ramda * (a.b.y - a.a.y));
+    }
+    public override string ToString() => $"{a} {b}";
+}]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
